@@ -1,0 +1,173 @@
+-- ============================================
+-- PharmaSmart - Script 12
+-- Inserción de Datos Iniciales
+-- Ejecutar como PHARMA_USER
+-- Autor: Luis Alberto Ariza Villamizar
+-- Universidad Popular del Cesar
+-- ============================================
+
+SET SERVEROUTPUT ON;
+SET ECHO ON;
+
+PROMPT ========================================
+PROMPT Insertando datos iniciales...
+PROMPT ========================================
+
+-- ============================================
+-- USUARIOS (contraseña por defecto: "123456")
+-- Hash SHA256 de "123456":
+-- 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
+-- ============================================
+INSERT INTO USUARIOS (NOMBRE_USUARIO, HASH_CONTRASENA, NOMBRE_COMPLETO, ROL, DOCUMENTO_IDENTIDAD)
+VALUES ('ADMIN', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'LUIS ALBERTO ARIZA VILLAMIZAR', '1', '1234567890');
+
+INSERT INTO USUARIOS (NOMBRE_USUARIO, HASH_CONTRASENA, NOMBRE_COMPLETO, ROL, DOCUMENTO_IDENTIDAD)
+VALUES ('CAJERO1', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'SEBASTIAN RAMOS', '2', '0987654321');
+
+INSERT INTO USUARIOS (NOMBRE_USUARIO, HASH_CONTRASENA, NOMBRE_COMPLETO, ROL, DOCUMENTO_IDENTIDAD)
+VALUES ('FARMACEUTICO', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'JUAN MIGUEL DEBILLERO', '3', '1122334455');
+
+PROMPT Usuarios insertados: 3
+
+-- ============================================
+-- PRODUCTOS
+-- ============================================
+INSERT INTO PRODUCTOS (CODIGO, NOMBRE, DESCRIPCION, ES_CONTROLADO, STOCK_MINIMO)
+VALUES ('IBU-001', 'Ibuprofeno 400mg', 'Antiinflamatorio, caja x 20', 'N', 10);
+
+INSERT INTO PRODUCTOS (CODIGO, NOMBRE, DESCRIPCION, ES_CONTROLADO, STOCK_MINIMO)
+VALUES ('LOR-005', 'Loratadina 10mg', 'Antihistaminico, caja x 10', 'N', 5);
+
+INSERT INTO PRODUCTOS (CODIGO, NOMBRE, DESCRIPCION, ES_CONTROLADO, STOCK_MINIMO)
+VALUES ('TRAM-02', 'Tramadol 50mg', 'Analgesico opioide, caja x 10', 'S', 3);
+
+INSERT INTO PRODUCTOS (CODIGO, NOMBRE, DESCRIPCION, ES_CONTROLADO, STOCK_MINIMO)
+VALUES ('INSU-05', 'Insulina Glargina 100UI', 'Insulina de accion prolongada, vial 10ml', 'S', 2);
+
+INSERT INTO PRODUCTOS (CODIGO, NOMBRE, DESCRIPCION, ES_CONTROLADO, STOCK_MINIMO, DESCUENTO_PROXIMIDAD_VENCIMIENTO)
+VALUES ('LOS-10', 'Losartan 50mg', 'Antihipertensivo, caja x 30', 'N', 8, 0.15);
+
+PROMPT Productos insertados: 5
+
+-- ============================================
+-- LOTES
+-- NOTA: TRG_ALERTA_INFLACION está deshabilitado durante esta carga
+-- ============================================
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-IBU-01', 1, TO_DATE('01/01/2025','DD/MM/YYYY'), SYSDATE + 15, 5000, 12000, 20, 100);
+
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-IBU-02', 1, TO_DATE('01/03/2026','DD/MM/YYYY'), TO_DATE('01/03/2028','DD/MM/YYYY'), 5500, 12000, 80, 100);
+
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-IBU-03', 1, TO_DATE('01/06/2024','DD/MM/YYYY'), TO_DATE('01/06/2026','DD/MM/YYYY'), 4500, 11000, 5, 50);
+
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-LOR-01', 2, TO_DATE('01/02/2026','DD/MM/YYYY'), TO_DATE('01/02/2028','DD/MM/YYYY'), 8000, 18000, 30, 50);
+
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-TRA-01', 3, TO_DATE('01/01/2026','DD/MM/YYYY'), TO_DATE('01/01/2028','DD/MM/YYYY'), 75000, 85000, 10, 20);
+
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-INS-01', 4, TO_DATE('01/03/2026','DD/MM/YYYY'), TO_DATE('01/09/2026','DD/MM/YYYY'), 140000, 150000, 5, 10);
+
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-LOS-01', 5, TO_DATE('01/04/2026','DD/MM/YYYY'), TO_DATE('01/04/2028','DD/MM/YYYY'), 8500, 15000, 40, 50);
+
+INSERT INTO LOTES (CODIGO_LOTE, ID_PRODUCTO, FECHA_FABRICACION, FECHA_VENCIMIENTO, PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD_ACTUAL, CANTIDAD_INICIAL)
+VALUES ('L-LOS-02', 5, TO_DATE('01/01/2026','DD/MM/YYYY'), SYSDATE + 20, 8000, 14000, 10, 30);
+
+PROMPT Lotes insertados: 8
+
+-- ============================================
+-- CLIENTES
+-- ============================================
+INSERT INTO CLIENTES (DOCUMENTO, NOMBRE_COMPLETO, TELEFONO, CORREO, MEDICAMENTO_RECURRENTE)
+VALUES ('1234567890', 'Maria Perez', '3001234567', 'maria@email.com', 'Ibuprofeno 400mg');
+
+INSERT INTO CLIENTES (DOCUMENTO, NOMBRE_COMPLETO, TELEFONO, CORREO, MEDICAMENTO_RECURRENTE)
+VALUES ('0987654321', 'Carlos Gomez', '3109876543', 'carlos@email.com', 'Losartan 50mg');
+
+PROMPT Clientes insertados: 2
+
+-- ============================================
+-- PARÁMETROS DEL SISTEMA
+-- ============================================
+INSERT INTO PARAMETROS_SISTEMA (CLAVE, VALOR, DESCRIPCION)
+VALUES ('PORCENTAJE_DESCUENTO_VENCIMIENTO', '0.20', 'Descuento en ventana critica (30 dias)');
+
+INSERT INTO PARAMETROS_SISTEMA (CLAVE, VALOR, DESCRIPCION)
+VALUES ('UMBRAL_ALERTA_INFLACION', '5.00', 'Porcentaje minimo para alerta de inflacion');
+
+INSERT INTO PARAMETROS_SISTEMA (CLAVE, VALOR, DESCRIPCION)
+VALUES ('DIAS_VENTANA_CRITICA', '30', 'Dias antes del vencimiento para ventana critica');
+
+INSERT INTO PARAMETROS_SISTEMA (CLAVE, VALOR, DESCRIPCION)
+VALUES ('TELEGRAM_BOT_TOKEN', 'TU_TOKEN_AQUI', 'Token del Bot de Telegram');
+
+INSERT INTO PARAMETROS_SISTEMA (CLAVE, VALOR, DESCRIPCION)
+VALUES ('TELEGRAM_HABILITADO', '0', 'Habilitar (1) o deshabilitar (0) integracion Telegram');
+
+INSERT INTO PARAMETROS_SISTEMA (CLAVE, VALOR, DESCRIPCION)
+VALUES ('DIAS_ANTICIPACION_REPOSICION', '5', 'Dias de anticipacion para notificar reposicion');
+
+PROMPT Parametros insertados: 6
+
+COMMIT;
+
+PROMPT ========================================
+PROMPT Datos insertados correctamente.
+PROMPT ========================================
+
+-- Verificación de conteos
+SELECT 'USUARIOS' AS TABLA, COUNT(*) AS TOTAL FROM USUARIOS
+UNION ALL SELECT 'PRODUCTOS', COUNT(*) FROM PRODUCTOS
+UNION ALL SELECT 'LOTES', COUNT(*) FROM LOTES
+UNION ALL SELECT 'CLIENTES', COUNT(*) FROM CLIENTES
+UNION ALL SELECT 'PARAMETROS', COUNT(*) FROM PARAMETROS_SISTEMA;
+
+-- ============================================
+-- *** ACTIVAR TRIGGER DE INFLACIÓN ***
+-- Ahora que los datos iniciales están cargados, se activa el trigger.
+-- *** CORRECCIÓN 3 ***: Idempotente (se puede ejecutar varias veces sin error)
+-- ============================================
+PROMPT ========================================
+PROMPT Activando triggers para operación normal...
+PROMPT ========================================
+
+DECLARE
+    v_status VARCHAR2(10);
+BEGIN
+    SELECT STATUS INTO v_status 
+    FROM USER_TRIGGERS 
+    WHERE TRIGGER_NAME = 'TRG_ALERTA_INFLACION';
+    
+    IF v_status = 'DISABLED' THEN
+        EXECUTE IMMEDIATE 'ALTER TRIGGER TRG_ALERTA_INFLACION ENABLE';
+        DBMS_OUTPUT.PUT_LINE('TRG_ALERTA_INFLACION habilitado.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('TRG_ALERTA_INFLACION ya estaba habilitado.');
+    END IF;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('ADVERTENCIA: TRG_ALERTA_INFLACION no existe.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('ERROR al habilitar trigger: ' || SQLERRM);
+END;
+/
+
+-- Verificar estado final de todos los triggers
+PROMPT ========================================
+PROMPT Estado final de los triggers:
+PROMPT ========================================
+SELECT 
+    TRIGGER_NAME, 
+    STATUS 
+FROM USER_TRIGGERS 
+ORDER BY TRIGGER_NAME;
+
+PROMPT ========================================
+PROMPT Datos insertados y triggers activados.
+PROMPT ========================================
+
+EXIT;
